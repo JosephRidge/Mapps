@@ -15,7 +15,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "MAPBOX_API_KEY", "\"${project.findProperty("MAPBOX_API_KEY")}\"")
+         buildConfigField("String", "MAPBOX_API_KEY", "\"${project.findProperty("MAPBOX_API_KEY")}\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

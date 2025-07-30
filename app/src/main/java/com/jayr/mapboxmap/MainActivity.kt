@@ -10,18 +10,25 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayr.mapboxmap.ui.theme.MapboxMapTheme
+import com.mapbox.common.MapboxOptions
 import com.mapbox.geojson.Point
+import com.mapbox.maps.MapInitOptions
 import com.mapbox.maps.extension.compose.MapboxMap
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var apiKey = BuildConfig.MAPBOX_API_KEY
+        MapboxOptions.accessToken = apiKey
+
         enableEdgeToEdge()
         setContent {
             MapboxMapTheme {
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MapboxMap(
                         Modifier.fillMaxSize().padding(innerPadding),
