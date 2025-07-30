@@ -12,6 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.jayr.mapboxmap.ui.theme.MapboxMapTheme
+import com.mapbox.geojson.Point
+import com.mapbox.maps.extension.compose.MapboxMap
+import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +23,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             MapboxMapTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    MapboxMap(
+                        Modifier.fillMaxSize().padding(innerPadding),
+                        mapViewportState = rememberMapViewportState {
+                            setCameraOptions {
+                                zoom(2.0)
+                                center(Point.fromLngLat(-98.0, 39.5))
+                                pitch(0.0)
+                                bearing(0.0)
+                            }
+                        },
                     )
                 }
             }
