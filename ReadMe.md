@@ -1,46 +1,43 @@
  https://docs.mapbox.com/android/maps/guides/install/#work-with-jetpack-compose-extension 
 
-How to save(best practice) a secret key/ token in an android app
+## How to save(best practice) a secret key/ token in an android app
 
-Add Secret Key in Android app:
+### Add Secret Key in Android app:
 
-Steps:
-In your project root directory add a file and call it secrets.properties :
+Steps: 
 
+In your project root directory add a file and call it `secrets.properties` 
+Naviaget to your `build.gradle (app level)`
+ 
 
-We then add dependencies:
-Target file: build.gradle (app level), at the plugin section add:
-
-id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1"
-
+`id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1"`
 
 
 
+- Your plugin object will look like this:
 
-
-
-
-
-Your plugin object will look like this:
-
-plugins {
-alias(libs.plugins.android.application)
-alias(libs.plugins.kotlin.android)
-alias(libs.plugins.kotlin.compose)
-id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1"
+ ```
+ plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1"
 }
+ ```
+
+
 
 Under the android object, navigate to the defaultconfig (still under the build.gradle file app level)
-In my case i am storing a MAPBOX_API_KEY hence i name it in accordance to what it is.
+In my case i am storing a `MAPBOX_API_KEY` hence i name it in accordance to what it is.
 
 Add the following:
 
-buildConfigField("String", "MAPBOX_API_KEY", "\"${project.findProperty("MAPBOX_API_KEY")}\"")
+``buildConfigField("String", "MAPBOX_API_KEY", "\"${project.findProperty("MAPBOX_API_KEY")}\"")``
 The reason we add it as a buildConfig is because we will ref to it using the buildConfigurations.
 
 Now your default config object will look like this:
 
-
+```
 defaultConfig {
 applicationId = "com.jayr.mapboxmap"
 minSdk = 24
@@ -51,63 +48,56 @@ buildConfigField("String", "MAPBOX_API_KEY", "\"${project.findProperty("MAPBOX_A
 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 }
 
-
-
-
+```
 
 Next bit is to add the buildFeatures bit, where you will notice you have compose = true
 If that is not the case then make sure you add it this way:
 
 
+```
 buildFeatures {
 compose = true
 buildConfig = true
 }
+```
 
 The next bit now is we add the a secrets object, this serves the purpose of referencing to the secrets file itself.
 
 So add this after the close of the android object:
 
+```
 secrets {
 propertiesFileName = "secrets.properties"
 defaultPropertiesFileName = "local.properties"
 }
+```
 
 
 Finally in you buil.gradle file you add the following dependencies:
 
 Add as this:
 
+```
+implementation(libs.secrets.gradle.plugin)
+implementation(libs.maps.compose)
+```
 
-    implementation(libs.secrets.gradle.plugin)
-    implementation(libs.maps.compose)
-
-
-
-
-
-
-
-
-
-Navigate to the libs.versions.toml file and add the following:
+Navigate to the `libs.versions.toml` file and add the following:
 
 Under [versions] :
-
-
+```
 mapsCompose = "11.13.5"
 secretsGradlePlugin = "2.0.1"
-
-
+```
 Under [libraries] :
-
-maps-compose = { module = "com.mapbox.extension:maps-compose", version.ref = "mapsCompose" }
+```
+maps-compose = { module = "com.mapbox.extension:maps-compose", version.ref = "mapsCompose" }`
 secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 
-
+```
 
 Final outcome in your build.gradle (app level) :
-
+```
 plugins {
 alias(libs.plugins.android.application)
 alias(libs.plugins.kotlin.android)
@@ -218,35 +208,32 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
+```
 
 There after now run a sync or rather gradle sync the project, this can be achieved via:
 This:
 
-
 Or by clicking on the  located at the top right of your android studio.
-
 
 
 How do you now access it?
 This can be achieved by importing the BuildConfig, from your package.
 In my case my project package is :
 
-
-com.jayr.mapboxmap
+`com.jayr.mapboxmap`
 
 So importing it would be:
 
-com.jayr.mapboxmap.BuildConfig
+`com.jayr.mapboxmap.BuildConfig`
 
 Please note that it would not always ned to import it it may prompt you.
 
-Now in your MainActivity, you need to now retreive the respective key after the onCreate as such:
+Now in your `MainActivity`, you need to now retreive the respective key after the onCreate as such:
 
 
-var apiKey = BuildConfig.MAPBOX_API_KEY
+`var apiKey = BuildConfig.MAPBOX_API_KEY`
 
 Summary:
-
 How to save(best practice) a secret key/ token in an android app.
 
 
