@@ -234,7 +234,7 @@ Now in your `MainActivity`, you need to now retreive the respective key after th
 `var apiKey = BuildConfig.MAPBOX_API_KEY`
 
 Summary:
-How to save(best practice) a secret key/ token in an android app.
+How to save(best practice) a secret key/ token in an android app. Now you can get your mapbox key and save it
 
 
 Important ref:
